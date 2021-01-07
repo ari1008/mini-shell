@@ -8,7 +8,7 @@
 #include <sys/types.h> // pid_t
 #include <unistd.h>    // fork
 
-int main(int argc, char *argv[])
+int main(int argc, char *argv[],char *env[])
 {
     int i;
     char command[25]={};
@@ -19,7 +19,17 @@ int main(int argc, char *argv[])
         strcat(command, " ");
     }
     printf("%s",command);
-    system(command);
+
+    if (argc>[1])
+    {
+        if (execve(argv[1], argv + 1,env )== -1)
+        {
+            perror("execve");
+        }     
+    }
+    printf("My pid : %d\n",getpid()); 
+
+    //system(command);
     getchar();
     return EXIT_SUCCESS;
 }
