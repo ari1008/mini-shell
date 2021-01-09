@@ -10,11 +10,41 @@
 #include <sys/types.h> // pid_t
 #include <unistd.h>    // fork
 
+#include<time.h> //time
+
+void historique(char command){
+
+    time_t t = time(NULL); /* t contient maintenant la date et l'heure courante */
+    //printf("%s\n", ctime(&t));
+
+    FILE * fichier = NULL;
+    
+    fichier = fopen("historique.txt","a");
+    if (fichier!=NULL);
+    {
+        fprintf("%s : %s",ctime(&t),command);
+        fclose(fichier);
+        return EXIT_SUCCESS;
+    }
+
+    
+
+}
+
 int main(int argc, char *argv[])
 {
+
     pid_t pid;
     int status;
-    //const char * separators = " ,.!"
+
+    //pour function historique
+    char command[25]={};
+    for (int i=1; i < argc; i++)
+    {
+        printf("Argument %d : %s \n", i+1, argv[i]);
+        strcat(command,argv[i]);
+    }
+    printf("%s\n",command);
 
     printf("My pid : %d\n",getpid()); 
 
@@ -32,14 +62,16 @@ int main(int argc, char *argv[])
         //si pid = 0 alors on est dans le process fils
         else if (pid == 0)
         {
-        if (execvp(arg[1],argv + 1)== -1)
+        if (execvp(argv[1],argv + 1)== -1)
             perror("execvp");
 
         return EXIT_FAILURE; //on termine le fils meme si execve fail 
         }
         //dans le pere 
-        else
-            wait(&status);        
+        else{
+            wait(&status);            
+            historique(command);
+            }      
     }
 
     //getchar();
