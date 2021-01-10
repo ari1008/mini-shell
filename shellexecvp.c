@@ -12,19 +12,19 @@
 
 #include<time.h> //time
 
-void historique(char command){
+void historique(char * command){
 
     time_t t = time(NULL); /* t contient maintenant la date et l'heure courante */
-    //printf("%s\n", ctime(&t));
-
+    
+    //printf("%s",command);
+    //printf("%s",ctime(&t));
     FILE * fichier = NULL;
     
     fichier = fopen("historique.txt","a");
-    if (fichier!=NULL);
+    if (fichier!=NULL)
     {
-        fprintf("%s : %s",ctime(&t),command);
+        fprintf(fichier,"%s => %s\n",ctime(&t),command);
         fclose(fichier);
-        return EXIT_SUCCESS;
     }
 
     
@@ -44,7 +44,7 @@ int main(int argc, char *argv[])
         printf("Argument %d : %s \n", i+1, argv[i]);
         strcat(command,argv[i]);
     }
-    printf("%s\n",command);
+    //printf("%s\n",command);
 
     printf("My pid : %d\n",getpid()); 
 
