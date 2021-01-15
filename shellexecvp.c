@@ -12,22 +12,12 @@
 
 #include<time.h> //time
 
-void historique(char * command){
+void historique(char * command,FILE * fichier){
 
     time_t t = time(NULL); /* t contient maintenant la date et l'heure courante */
     
-    //printf("%s",command);
-    //printf("%s",ctime(&t));
-    FILE * fichier = NULL;
-    
-    fichier = fopen("historique.txt","a");
-    if (fichier!=NULL)
-    {
-        fprintf(fichier,"%s => %s\n",ctime(&t),command);
-        fclose(fichier);
-    }
-
-    
+    fprintf(fichier,"%s => %s\n",ctime(&t),command);
+        
 
 }
 
@@ -36,12 +26,15 @@ int main(int argc, char *argv[])
 
     pid_t pid;
     int status;
+    FILE * fichier = NULL;
+    
+    fichier = fopen("historique.txt","a");
 
     //pour function historique
-    char command[25]={};
+    char command[25]="";
     for (int i=1; i < argc; i++)
     {
-        printf("Argument %d : %s \n", i+1, argv[i]);
+        //printf("Argument %d : %s \n", i+1, argv[i]);
         strcat(command,argv[i]);
     }
     //printf("%s\n",command);
@@ -70,11 +63,10 @@ int main(int argc, char *argv[])
         //dans le pere 
         else{
             wait(&status);            
-            historique(command);
+            historique(command,fichier);
             }      
     }
-
+    fclose(fichier);
     //getchar();
     return EXIT_SUCCESS;
 }
-
