@@ -1,5 +1,5 @@
 // base pour faire SON shell ;p
-// gcc -g -Wall -Wextra -fanalyzer -pedantic mini-shell.c -o mini-shell
+// gcc -g -Wall -Wextra -fanalyzer -pedantic shellexecvp.c -o shellexecvp
 
 
 #include <stdlib.h> // EXIT_SUCCESS
@@ -62,6 +62,7 @@ int main(int argc, char *argv[])
         }
         //dans le pere 
         else{
+
             wait(&status);            
             historique(command,fichier);
             }      
